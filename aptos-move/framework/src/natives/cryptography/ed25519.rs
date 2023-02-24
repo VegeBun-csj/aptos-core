@@ -92,14 +92,19 @@ fn native_signature_verify_strict(
     mut arguments: VecDeque<Value>,
 ) -> PartialVMResult<NativeResult> {
     debug_assert!(_ty_args.is_empty());
+    // 判断参数个数
     debug_assert!(arguments.len() == 3);
 
+    // 提取参数
     let msg = pop_arg!(arguments, Vec<u8>);
+    println!("--------------------------------this is ed25519--------------------------------");
+    println!("{:?}", msg);
     let pubkey = pop_arg!(arguments, Vec<u8>);
     let signature = pop_arg!(arguments, Vec<u8>);
 
     let mut cost = gas_params.base;
 
+    // 计算cost
     cost += gas_params.per_pubkey_deserialize * NumArgs::one();
     let pk = match ed25519::Ed25519PublicKey::try_from(pubkey.as_slice()) {
         Ok(pk) => pk,
@@ -108,6 +113,7 @@ fn native_signature_verify_strict(
         }
     };
 
+    // 计算cost
     cost += gas_params.per_sig_deserialize * NumArgs::one();
     let sig = match ed25519::Ed25519Signature::try_from(signature.as_slice()) {
         Ok(sig) => sig,
@@ -116,11 +122,13 @@ fn native_signature_verify_strict(
         }
     };
 
+    // 计算cost
     // NOTE(Gas): hashing the message to the group and a size-2 multi-scalar multiplication
     cost += gas_params.per_sig_strict_verify * NumArgs::one()
         + gas_params.per_msg_hashing_base * NumArgs::one()
         + gas_params.per_msg_byte_hashing * NumBytes::new(msg.len() as u64);
 
+    // 最后验证
     let verify_result = sig.verify_arbitrary_msg(msg.as_slice(), &pk).is_ok();
     Ok(NativeResult::ok(
         cost,

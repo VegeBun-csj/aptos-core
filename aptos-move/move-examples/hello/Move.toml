@@ -1,0 +1,9 @@
+[package]
+name = 'hello'
+version = '1.0.0'
+
+[addresses]
+publisher = '0xe8d087677df972599277a4fc964fe530b6dc6a0becabab9051178f7fe206a26c'
+
+[dependencies]
+AptosFramework = { local = "../../framework/aptos-framework" }

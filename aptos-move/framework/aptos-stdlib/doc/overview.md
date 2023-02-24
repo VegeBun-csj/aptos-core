@@ -14,6 +14,7 @@ This is the reference documentation of the Aptos standard library.
 
 -  [`0x1::any`](any.md#0x1_any)
 -  [`0x1::aptos_hash`](hash.md#0x1_aptos_hash)
+-  [`0x1::bellman_verifier`](bellman_verifier.md#0x1_bellman_verifier)
 -  [`0x1::bls12381`](bls12381.md#0x1_bls12381)
 -  [`0x1::capability`](capability.md#0x1_capability)
 -  [`0x1::comparator`](comparator.md#0x1_comparator)

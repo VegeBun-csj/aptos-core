@@ -26,6 +26,10 @@ crate::natives::define_gas_parameters_for_natives!(GasParameters, "aptos_framewo
     [.bls12381.per_msg_hashing, "bls12381.per_msg_hashing", 1_540_000 * MUL],
     [.bls12381.per_byte_hashing, "bls12381.per_byte_hashing", 50 * MUL],
 
+    [.bellman_verifier.per_proof_uncompressed, "bellman_verifier.per_proof_uncompressed", 50 * MUL],
+    [.bellman_verifier.per_vkey_uncompressed, "bellman_verifier.per_vkey_uncompressed", 50 * MUL],
+    [.bellman_verifier.per_prepared_vkey_deserialize, "bellman_verifier.per_prepared_vkey_deserialize", 50 * MUL],
+
     [.ed25519.base, "signature.base", 150 * MUL],
     [.ed25519.per_pubkey_deserialize, "signature.per_pubkey_deserialize", 38_000 * MUL],
     [.ed25519.per_pubkey_small_order_check, "signature.per_pubkey_small_order_check", 6_350 * MUL],

@@ -17,6 +17,7 @@ pub mod util;
 use crate::natives::cryptography::multi_ed25519;
 use aggregator_natives::{aggregator, aggregator_factory};
 use cryptography::ed25519;
+use cryptography::bellman_verifier;
 use gas_algebra_ext::AbstractValueSize;
 
 use move_core_types::{account_address::AccountAddress, identifier::Identifier};
@@ -34,6 +35,7 @@ pub mod status {
 pub struct GasParameters {
     pub account: account::GasParameters,
     pub ed25519: ed25519::GasParameters,
+    pub bellman_verifier: cryptography::bellman_verifier::GasParameters,
     pub bls12381: cryptography::bls12381::GasParameters,
     pub secp256k1: cryptography::secp256k1::GasParameters,
     pub ristretto255: cryptography::ristretto255::GasParameters,
@@ -69,6 +71,14 @@ impl GasParameters {
                 per_msg_hashing: 0.into(),
                 per_byte_hashing: 0.into(),
             },
+
+            bellman_verifier: cryptography::bellman_verifier::GasParameters {
+                base: 0.into(),
+                per_proof_uncompressed: 0.into(),
+                per_vkey_uncompressed: 0.into(),
+                per_prepared_vkey_deserialize: 0.into(),
+            },
+
             ed25519: cryptography::ed25519::GasParameters {
                 base: 0.into(),
                 per_pubkey_deserialize: 0.into(),
@@ -198,6 +208,7 @@ pub fn all_natives(
 
     add_natives_from_module!("account", account::make_all(gas_params.account.clone()));
     add_natives_from_module!("ed25519", ed25519::make_all(gas_params.ed25519.clone()));
+    add_natives_from_module!("bellman_verifier", bellman_verifier::make_all(gas_params.bellman_verifier.clone()));
     add_natives_from_module!("genesis", account::make_all(gas_params.account));
     add_natives_from_module!("multi_ed25519", multi_ed25519::make_all(gas_params.ed25519));
     add_natives_from_module!(

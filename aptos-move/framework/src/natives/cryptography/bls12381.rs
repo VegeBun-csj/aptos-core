@@ -204,6 +204,9 @@ impl GasParameters {
         let aggpk_bytes = pop_arg!(arguments, Vec<u8>);
         let multisig_bytes = pop_arg!(arguments, Vec<u8>);
 
+/*      println!("this is bls12_381 message");
+        println!("{:?}", msg_bytes); */
+
         let pk = match self.bls12381_deserialize_pk(aggpk_bytes, &mut cost) {
             Some(pk) => pk,
             None => {

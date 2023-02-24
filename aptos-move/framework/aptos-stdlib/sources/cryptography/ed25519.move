@@ -6,7 +6,6 @@ module aptos_std::ed25519 {
     use std::bcs;
     use aptos_std::type_info::{Self, TypeInfo};
     use std::option::{Self, Option};
-
     //
     // Error codes
     //
@@ -172,6 +171,31 @@ module aptos_std::ed25519 {
         std::hash::sha3_256(pk_bytes)
     }
 
+
+    native fun bellman_verifier_internal(
+        pi_a: vector<u8>,
+        pi_b: vector<u8>,
+        pi_c: vector<u8>,
+        alpha1: vector<u8>,
+        beta2: vector<u8>,
+        gamma2: vector<u8>,
+        delta2: vector<u8>,
+        ic: vector<u8>,
+    ): bool;
+
+    public fun verifiy(
+        pi_a: vector<u8>,
+        pi_b: vector<u8>,
+        pi_c: vector<u8>,
+        alpha1: vector<u8>,
+        beta2: vector<u8>,
+        gamma2: vector<u8>,
+        delta2: vector<u8>,
+        ic: vector<u8>,
+    ): bool{
+        bellman_verifier_internal(pi_a, pi_b, pi_c, alpha1, beta2, gamma2, delta2, ic)
+    }
+
     #[test_only]
     /// Generates an Ed25519 key pair.
     public fun generate_keys(): (SecretKey, ValidatedPublicKey) {
@@ -257,6 +281,5 @@ module aptos_std::ed25519 {
         let sig2 = sign_struct(&sk, copy msg2);
         assert!(signature_verify_strict_t(&sig2, &pk, copy msg2), std::error::invalid_state(2));
     }
-
 
 }

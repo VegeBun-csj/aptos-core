@@ -6,6 +6,7 @@
 
 module aptos_std::bls12381 {
     use std::option::{Self, Option};
+    // use std::debug;
 
     /// The signature size, in bytes
     const SIGNATURE_SIZE: u64 = 96;
@@ -589,6 +590,7 @@ module aptos_std::bls12381 {
         // SK:        077c8a56f26259215a4a245373ab6ddf328ac6e00e5ea38d8700efa361bdc58d
 
         let message = b"Hello Aptos!";
+        // debug::print(&message);
 
         // First, test signatures that verify
         let ok = verify_normal_signature(
